@@ -1,8 +1,20 @@
 import express from 'express';
-import { router as tasksRouter } from './controllers/task-controller';
+import cors from 'cors';
+import { router as tasksRouter } from './controllers/task.controller';
+import { appDataSource } from './shared/data-source';
+
+appDataSource
+    .initialize()
+    .then(() => {
+        console.log("Data Source has been initialized!")
+    })
+    .catch((err) => {
+        console.error("Error during Data Source initialization:", err)
+    });
+
 const app = express();
 
-
+app.use(cors());
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -10,18 +22,13 @@ app.use(
   })
 )
 
-app.use('/', (req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', '*');
-    return next();
-})
 
 app.use('/tasks', tasksRouter);
 
-
+const PORT = process.env.PORT || 3000;
 try {
-    app.listen(3000, () => {
-        console.log('Server running successfully.');
+    app.listen(PORT, () => {
+        console.log(`Server running successfully on port ${PORT}`);
     });
 } catch (err) {
     console.log(err);

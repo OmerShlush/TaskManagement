@@ -9,7 +9,7 @@ interface Task {
 function deleteTask(taskId: number) {
     fetch('http://localhost:3000/tasks/delete', 
     {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -45,9 +45,9 @@ function createTask(task: Task) {
 
 function updateTask(taskId: number) {
 
-    fetch('http://localhost:3000/tasks/update', 
+    fetch('http://localhost:3000/tasks/updateStatus', 
     {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -66,7 +66,7 @@ function updateTaskPriority(data: {taskId: number, Priority: number}) {
 
     fetch('http://localhost:3000/tasks/updatePriority', 
     {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },

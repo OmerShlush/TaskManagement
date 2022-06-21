@@ -1,6 +1,6 @@
 function deleteTask(taskId) {
     fetch('http://localhost:3000/tasks/delete', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -29,8 +29,8 @@ function createTask(task) {
     });
 }
 function updateTask(taskId) {
-    fetch('http://localhost:3000/tasks/update', {
-        method: 'POST',
+    fetch('http://localhost:3000/tasks/updateStatus', {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -45,7 +45,7 @@ function updateTask(taskId) {
 }
 function updateTaskPriority(data) {
     fetch('http://localhost:3000/tasks/updatePriority', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
