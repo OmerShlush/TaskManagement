@@ -102,3 +102,18 @@ function getFilteredTasks() {
         console.error('Error:', error);
     });
 }
+function createUser(name) {
+    fetch('http://localhost:3000/users/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(name)
+    })
+        .then(function (response) { return response.json(); })
+        .then(function (data) {
+        console.log('Success:', data);
+    })["catch"](function (error) {
+        console.error('Error:', error);
+    });
+}

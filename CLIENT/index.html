@@ -9,11 +9,24 @@
 </head>
 <body>
     <form>
+        <label for="name">User name:</label>
+        <input type="text" name="name" id="name"/>
+    <button type="button" onclick="createUser(
+        {
+            name: document.getElementById('name').value
+        }
+        )">Create Username</button>
+    </form>
+    <br />
+    <form>
         <label for="TaskName">Task name:</label>
         <input type="text" name="TaskName" id="TaskName"/>
+        <label for="username">User name:</label>
+        <input type="text" name="username" id="username"/>
     <button type="button" onclick="createTask(
         {
-            TaskName: document.getElementById('TaskName').value
+            TaskName: document.getElementById('TaskName').value,
+            name: document.getElementById('username').value
         }
         )">Create Task</button>
     </form>

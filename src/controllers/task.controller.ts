@@ -1,5 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
+import { indexTask, updateTaskIndex, deleteTaskIndex } from '../elasticsearch/es-queries';
 import { 
     createTask, 
     getTasks, 
@@ -7,19 +8,22 @@ import {
     updateTaskStatus, 
     getFilteredTasks, 
     updateTaskPriority
-} from '../shared/db-queries';
+} from '../shared/task.db-queries';
 
 const router = express.Router();
 
 router.post('/create', async (req: Request, res: Response) => {
-    const TaskName = req.body.TaskName;
-    const createdTask = await createTask(TaskName);
+    const taskName = req.body.TaskName;
+    const name = req.body.name;
+    const createdTask = await createTask(taskName, name);
+    await indexTask(createdTask.id, createdTask.user.id, createdTask.Priority);
     return res.send(createdTask);
 });
 
 router.delete('/delete', async (req: Request, res: Response) => {
     const id = req.body.TaskId;
     const deletedTask = await deleteTask(id);
+    await deleteTaskIndex(id);
     return res.send(deletedTask);
 });
 
@@ -32,6 +36,7 @@ router.put('/updateStatus', async (req: Request, res: Response) => {
 router.put('/updatePriority', async (req: Request, res: Response) => {
     const { TaskId, Priority } = req.body;
     const updatedTask = await updateTaskPriority(TaskId, Priority);
+    await updateTaskIndex(TaskId, Priority);
     return res.send(updatedTask);
 });
 

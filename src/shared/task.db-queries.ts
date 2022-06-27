@@ -1,8 +1,15 @@
+import { updateTaskIndex } from '../elasticsearch/es-queries';
 import { Task } from '../entity/task.entity';
+import { User } from '../entity/user.entity';
 import { appDataSource } from './data-source';
 
-const createTask = async (TaskName: string) => {
-    const newTask = appDataSource.getRepository(Task).create({ TaskName: TaskName })
+const createTask = async (taskName: string, name: string) => {
+    const user = await appDataSource.getRepository(User).findOne({
+        where: {
+            name: name
+        }
+    })
+    const newTask = appDataSource.getRepository(Task).create({ TaskName: taskName, user: user })
     const results = await appDataSource.getRepository(Task).save(newTask)
     return results;
 }
@@ -21,11 +28,11 @@ const updateTaskStatus = async (id: number) => {
     return results;
 }
 
-const updateTaskPriority = async (TaskId: number, Priority: number) => {
+const updateTaskPriority = async (taskId: number, priority: number) => {
     const task = await appDataSource.getRepository(Task).findOneBy({
-        id: TaskId,
+        id: taskId,
     })
-    appDataSource.getRepository(Task).merge(task, { Priority: Priority})
+    appDataSource.getRepository(Task).merge(task, { Priority: priority})
     const results = await appDataSource.getRepository(Task).save(task)
     return results;
 }

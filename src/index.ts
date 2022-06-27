@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { router as tasksRouter } from './controllers/task.controller';
+import { router as usersRouter } from './controllers/user.controller';
 import { appDataSource } from './shared/data-source';
 
 appDataSource
@@ -24,6 +25,7 @@ app.use(
 
 
 app.use('/tasks', tasksRouter);
+app.use('/users', usersRouter);
 
 const PORT = process.env.PORT || 3000;
 try {
