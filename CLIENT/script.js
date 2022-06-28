@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,12 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+exports.__esModule = true;
 function deleteTask(taskId) {
     return __awaiter(this, void 0, void 0, function () {
-        var results;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch('http://localhost:3000/tasks/delete', {
+        var results, _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0: return [4 /*yield*/, fetch("http://localhost:3000/tasks/delete", {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json'
@@ -47,8 +49,11 @@ function deleteTask(taskId) {
                         body: JSON.stringify(taskId)
                     })];
                 case 1:
-                    results = _a.sent();
-                    console.log(results);
+                    results = _c.sent();
+                    _b = (_a = console).log;
+                    return [4 /*yield*/, results.json()];
+                case 2:
+                    _b.apply(_a, [_c.sent()]);
                     return [2 /*return*/];
             }
         });
@@ -59,7 +64,7 @@ function createTask(task) {
         var results;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch('http://localhost:3000/tasks/create', {
+                case 0: return [4 /*yield*/, fetch("http://localhost:3000/tasks/create", {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -76,9 +81,9 @@ function createTask(task) {
 }
 function updateTask(taskId) {
     return __awaiter(this, void 0, void 0, function () {
-        var results;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var results, _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0: return [4 /*yield*/, fetch('http://localhost:3000/tasks/updateStatus', {
                         method: 'PUT',
                         headers: {
@@ -87,19 +92,22 @@ function updateTask(taskId) {
                         body: JSON.stringify(taskId)
                     })];
                 case 1:
-                    results = _a.sent();
-                    console.log(results);
+                    results = _c.sent();
+                    _b = (_a = console).log;
+                    return [4 /*yield*/, results.json()];
+                case 2:
+                    _b.apply(_a, [_c.sent()]);
                     return [2 /*return*/];
             }
         });
     });
 }
-function updateTaskPriority(data) {
+function updateTaskpriority(data) {
     return __awaiter(this, void 0, void 0, function () {
-        var results;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch('http://localhost:3000/tasks/updatePriority', {
+        var results, _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0: return [4 /*yield*/, fetch('http://localhost:3000/tasks/updatepriority', {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -107,8 +115,11 @@ function updateTaskPriority(data) {
                         body: JSON.stringify(data)
                     })];
                 case 1:
-                    results = _a.sent();
-                    console.log(results);
+                    results = _c.sent();
+                    _b = (_a = console).log;
+                    return [4 /*yield*/, results.json()];
+                case 2:
+                    _b.apply(_a, [_c.sent()]);
                     return [2 /*return*/];
             }
         });
@@ -129,7 +140,7 @@ function getTaskList() {
         listArray = data;
         listArray.forEach(function (Task) {
             var li = document.createElement('li');
-            li.innerText = "ID: ".concat(Task.id, " Task: ").concat(Task.TaskName, " - Progress: ").concat(Task.isDone ? 'DONE' : 'In Work', " - Priority: ").concat(Task.Priority);
+            li.innerText = "ID: ".concat(Task.id, " Task: ").concat(Task.taskName, " - Progress: ").concat(Task.isDone ? 'DONE' : 'In Work', " - priority: ").concat(Task.priority);
             list === null || list === void 0 ? void 0 : list.appendChild(li);
         });
     })["catch"](function (error) {
@@ -138,9 +149,9 @@ function getTaskList() {
 }
 function getFilteredTasks() {
     return __awaiter(this, void 0, void 0, function () {
-        var listArray, list, results, _a, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var listArray, list, results;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
                     list = document.getElementById('filteredTaskList');
                     return [4 /*yield*/, fetch('http://localhost:3000/tasks/filtered', {
@@ -149,6 +160,38 @@ function getFilteredTasks() {
                                 'Content-Type': 'application/json'
                             }
                         })];
+                case 1:
+                    results = _a.sent();
+                    return [4 /*yield*/, results.json()
+                            .then(function (data) {
+                            listArray = data;
+                            listArray.forEach(function (Task) {
+                                var li = document.createElement('li');
+                                li.innerText = "ID: ".concat(Task.id, " Task: ").concat(Task.taskName, " - Progress: ").concat(Task.isDone ? 'DONE' : 'In Work', " - priority: ").concat(Task.priority);
+                                list === null || list === void 0 ? void 0 : list.appendChild(li);
+                            });
+                        })["catch"](function (error) {
+                            console.log(error);
+                        })];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function createUser(name) {
+    return __awaiter(this, void 0, void 0, function () {
+        var results, _a, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0: return [4 /*yield*/, fetch('http://localhost:3000/users/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(name)
+                    })];
                 case 1:
                     results = _c.sent();
                     _b = (_a = console).log;
@@ -160,42 +203,41 @@ function getFilteredTasks() {
         });
     });
 }
-function createUser(name) {
-    fetch('http://localhost:3000/users/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(name)
-    })
-        .then(function (response) { return response.json(); })
-        .then(function (data) {
-        console.log('Success:', data);
-    })["catch"](function (error) {
-        console.error('Error:', error);
-    });
-}
 function loadUserTasks(name) {
-    console.log(JSON.stringify(name));
-    var listArray;
-    var list = document.getElementById('filteredTaskList');
-    fetch("http://localhost:3000/tasks/", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(name)
-    })
-        .then(function (response) { return response.json(); })
-        .then(function (data) {
-        console.log('Success:', data);
-        listArray = data;
-        listArray.forEach(function (Task) {
-            var li = document.createElement('li');
-            li.innerText = "ID: ".concat(Task.id, " Task: ").concat(Task.TaskName, " - Progress: ").concat(Task.isDone ? 'DONE' : 'In Work', " - Priority: ").concat(Task.Priority);
-            list === null || list === void 0 ? void 0 : list.appendChild(li);
+    return __awaiter(this, void 0, void 0, function () {
+        var listArray, list, results, listArray_1, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    console.log(JSON.stringify(name));
+                    list = document.getElementById('filteredTaskList');
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 4, , 5]);
+                    return [4 /*yield*/, fetch("http://localhost:3000/tasks/", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(name)
+                        })];
+                case 2:
+                    results = _a.sent();
+                    return [4 /*yield*/, results.json()];
+                case 3:
+                    listArray_1 = _a.sent();
+                    listArray_1.forEach(function (Task) {
+                        var li = document.createElement('li');
+                        li.innerText = "ID: ".concat(Task.id, " Task: ").concat(Task.taskName, " - Progress: ").concat(Task.isDone ? 'DONE' : 'In Work', " - priority: ").concat(Task.priority);
+                        list === null || list === void 0 ? void 0 : list.appendChild(li);
+                    });
+                    return [3 /*break*/, 5];
+                case 4:
+                    error_1 = _a.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
+            }
         });
-    })["catch"](function (error) {
-        console.error('Error:', error);
     });
 }

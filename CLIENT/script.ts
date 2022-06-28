@@ -5,11 +5,10 @@ interface Task {
     priority?: number,
     name?: string
 }
-
-const BASE_URL = 'http://localhost:3000';
+import axios from 'axios';
 
 async function deleteTask (taskId: number) {
-    const results = await fetch(BASE_URL + '/tasks/delete', 
+    const results = await fetch(`http://localhost:3000/tasks/delete`, 
     {
         method: 'DELETE',
         headers: {
@@ -17,12 +16,11 @@ async function deleteTask (taskId: number) {
         },
         body: JSON.stringify(taskId),
     })
-    console.log(results.json());
+    console.log(await results.json());
 }
 
 async function createTask(task: Task) {
-
-    const results = await fetch(BASE_URL + '/tasks/create', 
+    const results = await fetch(`http://localhost:3000/tasks/create`, 
     {
         method: 'POST',
         headers: {
@@ -30,12 +28,11 @@ async function createTask(task: Task) {
         },
         body: JSON.stringify(task),
     })
-    console.log(results.json());
+    console.log(results);
 }
 
 async function updateTask(taskId: number) {
-
-    const results = await fetch(BASE_URL + '/tasks/updateStatus', 
+    const results = await fetch('http://localhost:3000/tasks/updateStatus', 
     {
         method: 'PUT',
         headers: {
@@ -43,12 +40,12 @@ async function updateTask(taskId: number) {
         },
         body: JSON.stringify(taskId),
     })
-    console.log(results.json())
+    console.log(await results.json())
 }
 
 async function updateTaskpriority(data: {taskId: number, priority: number}) {
 
-    const results = await fetch(BASE_URL + '/tasks/updatepriority', 
+    const results = await fetch('http://localhost:3000/tasks/updatepriority', 
     {
         method: 'PUT',
         headers: {
@@ -56,13 +53,13 @@ async function updateTaskpriority(data: {taskId: number, priority: number}) {
         },
         body: JSON.stringify(data)
     })
-    console.log(results.json());
+    console.log(await results.json());
 }
 
 function getTaskList() {
     let listArray: [Task];
     const list = document.getElementById('tasksList');
-    fetch(BASE_URL + '/tasks/', 
+    fetch('http://localhost:3000/tasks/', 
     {
         method: 'GET',
         headers: {
@@ -88,14 +85,14 @@ function getTaskList() {
 async function getFilteredTasks() {
     let listArray: [Task];
     const list = document.getElementById('filteredTaskList');
-    const results = await fetch(BASE_URL + '/tasks/filtered', 
+    const results = await fetch('http://localhost:3000/tasks/filtered', 
     {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     })
-    results.json()
+    await results.json()
         .then(data => {
             listArray = data;
             listArray.forEach((Task) => {
@@ -110,7 +107,7 @@ async function getFilteredTasks() {
 }
 
 async function createUser (name: string) {
-    const results = await fetch(BASE_URL + '/users/add', 
+    const results = await fetch('http://localhost:3000/users/add', 
     {
         method: 'POST',
         headers: {
@@ -118,7 +115,7 @@ async function createUser (name: string) {
         },
         body: JSON.stringify(name),
     })
-    console.log(results.json());
+    console.log(await results.json());
 }
 
 async function loadUserTasks(name: string) {
@@ -135,7 +132,7 @@ async function loadUserTasks(name: string) {
             body: JSON.stringify(name)
         })
         const listArray = await results.json();
-        listArray.forEach((Task) => {
+        listArray.forEach((Task: Task) => {
             let li = document.createElement('li');
             li.innerText = `ID: ${Task.id} Task: ${Task.taskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - priority: ${Task.priority}`
             list?.appendChild(li);
