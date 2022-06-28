@@ -8,6 +8,7 @@ export const appDataSource = new DataSource({
     password: "omerdev",
     database: "tasks",
     entities: ["src/entity/*.ts"],
+    migrations: ["src/migrations/*.ts"],
     logging: true,
     synchronize: true,
 })

@@ -1,4 +1,3 @@
-
 interface Task {
     id?: number,
     TaskName: string,
@@ -7,8 +6,10 @@ interface Task {
     name?: string
 }
 
-function deleteTask(taskId: number) {
-    fetch('http://localhost:3000/tasks/delete', 
+const BASE_URL = 'http://localhost:3000';
+
+async function deleteTask (taskId: number) {
+    const results = await fetch(BASE_URL + '/tasks/delete', 
     {
         method: 'DELETE',
         headers: {
@@ -16,18 +17,12 @@ function deleteTask(taskId: number) {
         },
         body: JSON.stringify(taskId),
     })
-    .then(response => response.json())
-    .then(data => {
-    console.log('Success:', data);
-    })
-    .catch((error) => {
-    console.error('Error:', error);
-    });
+    console.log(results.json());
 }
 
-function createTask(task: Task) {
+async function createTask(task: Task) {
 
-    fetch('http://localhost:3000/tasks/create', 
+    const results = await fetch(BASE_URL + '/tasks/create', 
     {
         method: 'POST',
         headers: {
@@ -35,18 +30,12 @@ function createTask(task: Task) {
         },
         body: JSON.stringify(task),
     })
-    .then(response => response.json())
-    .then(data => {
-    console.log('Success:', data);
-    })
-    .catch((error) => {
-    console.error('Error:', error);
-    });
+    console.log(results.json());
 }
 
-function updateTask(taskId: number) {
+async function updateTask(taskId: number) {
 
-    fetch('http://localhost:3000/tasks/updateStatus', 
+    const results = await fetch(BASE_URL + '/tasks/updateStatus', 
     {
         method: 'PUT',
         headers: {
@@ -54,18 +43,12 @@ function updateTask(taskId: number) {
         },
         body: JSON.stringify(taskId),
     })
-    .then(response => response.json())
-    .then(data => {
-    console.log('Success:', data);
-    })
-    .catch((error) => {
-    console.error('Error:', error);
-    });
+    console.log(results.json())
 }
 
-function updateTaskPriority(data: {taskId: number, Priority: number}) {
+async function updateTaskPriority(data: {taskId: number, Priority: number}) {
 
-    fetch('http://localhost:3000/tasks/updatePriority', 
+    const results = await fetch(BASE_URL + '/tasks/updatePriority', 
     {
         method: 'PUT',
         headers: {
@@ -73,19 +56,13 @@ function updateTaskPriority(data: {taskId: number, Priority: number}) {
         },
         body: JSON.stringify(data)
     })
-    .then(response => response.json())
-    .then(data => {
-    console.log('Success:', data);
-    })
-    .catch((error) => {
-    console.error('Error:', error);
-    });
+    console.log(results.json());
 }
 
 function getTaskList() {
     let listArray: [Task];
     const list = document.getElementById('tasksList');
-    fetch('http://localhost:3000/tasks/', 
+    fetch(BASE_URL + '/tasks/', 
     {
         method: 'GET',
         headers: {
@@ -108,33 +85,32 @@ function getTaskList() {
 }
 
 
-function getFilteredTasks() {
+async function getFilteredTasks() {
     let listArray: [Task];
     const list = document.getElementById('filteredTaskList');
-    fetch('http://localhost:3000/tasks/filtered', 
+    const results = await fetch(BASE_URL + '/tasks/filtered', 
     {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        listArray = data;
-        listArray.forEach((Task) => {
-            let li = document.createElement('li');
-            li.innerText = `ID: ${Task.id} Task: ${Task.TaskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - Priority: ${Task.Priority}`
-            list?.appendChild(li);
-        });
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    results.json()
+        .then(data => {
+            listArray = data;
+            listArray.forEach((Task) => {
+                let li = document.createElement('li');
+                li.innerText = `ID: ${Task.id} Task: ${Task.TaskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - Priority: ${Task.Priority}`
+                list?.appendChild(li);
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        })
 }
 
-function createUser (name: string) {
-    fetch('http://localhost:3000/users/add', 
+async function createUser (name: string) {
+    const results = await fetch(BASE_URL + '/users/add', 
     {
         method: 'POST',
         headers: {
@@ -142,20 +118,14 @@ function createUser (name: string) {
         },
         body: JSON.stringify(name),
     })
-    .then(response => response.json())
-    .then(data => {
-    console.log('Success:', data);
-    })
-    .catch((error) => {
-    console.error('Error:', error);
-    }); 
+    console.log(results.json());
 }
 
-function loadUserTasks(name: string) {
+async function loadUserTasks(name: string) {
     console.log(JSON.stringify(name))
     let listArray: [Task];
     const list = document.getElementById('filteredTaskList');
-    fetch(`http://localhost:3000/tasks/`, 
+    const results = await fetch(`http://localhost:3000/tasks/`, 
     {
         method: 'POST',
         headers: {
@@ -163,17 +133,17 @@ function loadUserTasks(name: string) {
         },
         body: JSON.stringify(name)
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        listArray = data;
-        listArray.forEach((Task) => {
-            let li = document.createElement('li');
-            li.innerText = `ID: ${Task.id} Task: ${Task.TaskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - Priority: ${Task.Priority}`
-            list?.appendChild(li);
+    results.json()
+        .then((data) => {
+            listArray = data;
+            listArray.forEach((Task) => {
+                let li = document.createElement('li');
+                li.innerText = `ID: ${Task.id} Task: ${Task.TaskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - Priority: ${Task.Priority}`
+                list?.appendChild(li);
+            });
+        })
+        .catch((error) => {
+            console.log(error);
         });
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+
 }

@@ -1,6 +1,6 @@
 import winston from 'winston';
 import 'winston-daily-rotate-file';
-import { Task } from '../../shared/task.interface';
+import { Task } from '../../interfaces/task.interface';
 
 const logger = winston.createLogger({
     level: 'debug',

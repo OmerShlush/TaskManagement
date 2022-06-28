@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { router as tasksRouter } from './controllers/task.controller';
 import { router as usersRouter } from './controllers/user.controller';
-import { appDataSource } from './shared/data-source';
+import { appDataSource } from './database/data-source';
+import { config } from './config/app.config';
 
 appDataSource
     .initialize()
@@ -10,7 +11,8 @@ appDataSource
         console.log("Data Source has been initialized!")
     })
     .catch((err) => {
-        console.error("Error during Data Source initialization:", err)
+        console.log({status: 'DATA_SOURCE_ERROR'});
+        console.log(err);
     });
 
 const app = express();
@@ -27,10 +29,10 @@ app.use(
 app.use('/tasks', tasksRouter);
 app.use('/users', usersRouter);
 
-const PORT = process.env.PORT || 3000;
+
 try {
-    app.listen(PORT, () => {
-        console.log(`Server running successfully on port ${PORT}`);
+    app.listen(config.port, () => {
+        console.log(`Server running successfully on port ${config.port}`);
     });
 } catch (err) {
     console.log(err);

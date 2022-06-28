@@ -1,21 +1,21 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm"
-import { User } from "./user.entity"
+import { UserEntity } from "./user.entity"
 
 @Entity()
-export class Task {
+export class TaskEntity {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
-    TaskName: string
+    taskName: string
 
     @Column({ type: 'boolean', default: false})
     isDone: boolean
 
     @Column({default: 4})
-    Priority: number
+    priority: number
 
-    @ManyToOne(() => User, (user) => user.tasks)
-    user: User
+    @ManyToOne(() => UserEntity, (user) => user.tasks)
+    user: UserEntity
 
 }

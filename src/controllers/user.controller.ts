@@ -1,12 +1,12 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { addUser } from '../shared/user.db-queries';
+import UserManager from '../database/user.db-queries';
 
 const router = express.Router();
 
 router.post('/add', async (req: Request, res: Response) => {
     const name = req.body.name;
-    const user = await addUser(name);
+    const user = await new UserManager().addUser(name);
     return res.send(user);
 })
 
