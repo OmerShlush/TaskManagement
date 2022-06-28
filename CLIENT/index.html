@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css" />
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <label for="name">User name:</label>
+        <input type="text" name="name" id="name"/>
+    <button type="button" onclick="createUser(
+        {
+            name: document.getElementById('name').value
+        }
+        )">Create Username</button>
+    <button type="button" onclick="loadUserTasks(
+        {
+            name: document.getElementById('name').value
+        }
+    )">Load user tasks</button>
+    </form>
+    <br />
+    <form>
+        <label for="taskName">Task name:</label>
+        <input type="text" name="taskName" id="taskName"/>
+        <label for="username">User name:</label>
+        <input type="text" name="username" id="username"/>
+    <button type="button" onclick="createTask(
+        {
+            taskName: document.getElementById('taskName').value,
+            name: document.getElementById('username').value
+        }
+        )">Create Task</button>
+    </form>
+    <br />
+    <form>
+        <label for="taskId">Task ID:</label>
+        <input type="text" name="taskId" id="taskId"/>
+        <button type="button" onclick="deleteTask(
+            {
+                taskId: document.getElementById('taskId').value
+            }
+            )">
+            Delete Task
+        </button>
+        <button type="button" onclick="updateTask(
+            {
+                taskId: document.getElementById('taskId').value
+            }
+            )">
+            Update Task
+        </button>
+    </form>
+    <br />
+    <form>
+        <label for="pTaskId">Task ID:</label>
+        <input type="text" name="pTaskId" id="pTaskId"/>
+        <label for="priority">priority:</label>
+        <select name="priority" id="priority">
+            <option value="1">Critical</option>
+            <option value="2">Important</option>
+            <option value="3">Normal</option>
+            <option value="4">Low</option>
+          </select>
+        <button type="button" onclick="updateTaskpriority(
+            {
+                taskId: document.getElementById('ptaskId').value,
+                priority: document.getElementById('priority').value
+            }
+            )">
+            Update Task
+        </button>
+    </form>
+    <ul class="tasks__list" id="tasksList"> </ul><br />
+    <button type="button" onclick="getTaskList()">Load Task List</button><br />
+    <ul class="tasks__list" id="filteredTaskList"></ul><br />
+    <button type="button" onclick="getFilteredTasks()">Load Filtered Task List</button><br />
+
+<script src="script.js"></script>
+</body>
+</html>
