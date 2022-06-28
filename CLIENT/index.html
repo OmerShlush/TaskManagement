@@ -24,31 +24,31 @@
     </form>
     <br />
     <form>
-        <label for="TaskName">Task name:</label>
-        <input type="text" name="TaskName" id="TaskName"/>
+        <label for="taskName">Task name:</label>
+        <input type="text" name="taskName" id="taskName"/>
         <label for="username">User name:</label>
         <input type="text" name="username" id="username"/>
     <button type="button" onclick="createTask(
         {
-            TaskName: document.getElementById('TaskName').value,
+            taskName: document.getElementById('taskName').value,
             name: document.getElementById('username').value
         }
         )">Create Task</button>
     </form>
     <br />
     <form>
-        <label for="TaskId">Task ID:</label>
-        <input type="text" name="TaskId" id="TaskId"/>
+        <label for="taskId">Task ID:</label>
+        <input type="text" name="taskId" id="taskId"/>
         <button type="button" onclick="deleteTask(
             {
-                TaskId: document.getElementById('TaskId').value
+                taskId: document.getElementById('taskId').value
             }
             )">
             Delete Task
         </button>
         <button type="button" onclick="updateTask(
             {
-                TaskId: document.getElementById('TaskId').value
+                taskId: document.getElementById('taskId').value
             }
             )">
             Update Task
@@ -58,17 +58,17 @@
     <form>
         <label for="pTaskId">Task ID:</label>
         <input type="text" name="pTaskId" id="pTaskId"/>
-        <label for="Priority">Priority:</label>
-        <select name="Priority" id="Priority">
+        <label for="priority">priority:</label>
+        <select name="priority" id="priority">
             <option value="1">Critical</option>
             <option value="2">Important</option>
             <option value="3">Normal</option>
             <option value="4">Low</option>
           </select>
-        <button type="button" onclick="updateTaskPriority(
+        <button type="button" onclick="updateTaskpriority(
             {
-                TaskId: document.getElementById('pTaskId').value,
-                Priority: document.getElementById('Priority').value
+                taskId: document.getElementById('ptaskId').value,
+                priority: document.getElementById('priority').value
             }
             )">
             Update Task

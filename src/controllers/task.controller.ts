@@ -6,50 +6,51 @@ import TaskManager from '../database/task.db-queries';
 
 const router = express.Router();
 
+const taskManager = new TaskManager();
+
 router.post('/create', async (req: Request, res: Response) => {
-    const taskName = req.body.TaskName;
-    const name = req.body.name;
-    const createdTask = await new TaskManager().createTask(taskName, name);
+    const { taskName, name } = req.body;
+    const createdTask = await taskManager.createTask(taskName, name);
     await indexTask(createdTask.id, createdTask.user.id, createdTask.priority);
     Log(createdTask);
     return res.send(createdTask);
 });
 
 router.delete('/delete', async (req: Request, res: Response) => {
-    const id = req.body.TaskId;
-    const deletedTask = await new TaskManager().deleteTask(id);
+    const id = req.body.taskId;
+    const deletedTask = await taskManager.deleteTask(id);
     await deleteTaskIndex(id);
     return res.send(deletedTask);
 });
 
 router.put('/updateStatus', async (req: Request, res: Response) => {
-    const id = req.body.TaskId;
-    const updatedTask = await new TaskManager().updateTaskStatus(id);
+    const id = req.body.taskId;
+    const updatedTask = await taskManager.updateTaskStatus(id);
     Log(updatedTask);
     return res.send(updatedTask);
 });
 
 router.put('/updatePriority', async (req: Request, res: Response) => {
-    const { TaskId, Priority } = req.body;
-    const updatedTask = await new TaskManager().updateTaskPriority(TaskId, Priority);
-    await updateTaskIndex(TaskId, Priority);
-    Log({id: TaskId, priority: Priority})
+    const { taskId, Priority } = req.body;
+    const updatedTask = await taskManager.updateTaskPriority(taskId, Priority);
+    await updateTaskIndex(taskId, Priority);
+    Log({id: taskId, priority: Priority})
     return res.send(updatedTask);
 });
 
 router.post('/', async (req: Request, res: Response) => {
     const { name } = req.body;
-    const tasks = await new TaskManager().getTasksByName(name);
+    const tasks = await taskManager.getTasksByName(name);
     return res.json(tasks);
 });
 
 router.get('/', async (req: Request, res: Response) => {
-    const tasks = await new TaskManager().getTasks();
+    const tasks = await taskManager.getTasks();
     return res.json(tasks);
 });
 
 router.get('/filtered', async (req: Request, res: Response) => {
-    const filteredTasks = await new TaskManager().getFilteredTasks();
+    const filteredTasks = await taskManager.getFilteredTasks();
     return res.json(filteredTasks);
 });
 

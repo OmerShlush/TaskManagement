@@ -1,8 +1,8 @@
 interface Task {
     id?: number,
-    TaskName: string,
+    taskName: string,
     isDone: boolean,
-    Priority?: number,
+    priority?: number,
     name?: string
 }
 
@@ -46,9 +46,9 @@ async function updateTask(taskId: number) {
     console.log(results.json())
 }
 
-async function updateTaskPriority(data: {taskId: number, Priority: number}) {
+async function updateTaskpriority(data: {taskId: number, priority: number}) {
 
-    const results = await fetch(BASE_URL + '/tasks/updatePriority', 
+    const results = await fetch(BASE_URL + '/tasks/updatepriority', 
     {
         method: 'PUT',
         headers: {
@@ -75,7 +75,7 @@ function getTaskList() {
         listArray = data;
         listArray.forEach((Task) => {
             let li = document.createElement('li');
-            li.innerText = `ID: ${Task.id} Task: ${Task.TaskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - Priority: ${Task.Priority}`
+            li.innerText = `ID: ${Task.id} Task: ${Task.taskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - priority: ${Task.priority}`
             list?.appendChild(li);
         });
     })
@@ -100,7 +100,7 @@ async function getFilteredTasks() {
             listArray = data;
             listArray.forEach((Task) => {
                 let li = document.createElement('li');
-                li.innerText = `ID: ${Task.id} Task: ${Task.TaskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - Priority: ${Task.Priority}`
+                li.innerText = `ID: ${Task.id} Task: ${Task.taskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - priority: ${Task.priority}`
                 list?.appendChild(li);
             });
         })
@@ -125,25 +125,23 @@ async function loadUserTasks(name: string) {
     console.log(JSON.stringify(name))
     let listArray: [Task];
     const list = document.getElementById('filteredTaskList');
-    const results = await fetch(`http://localhost:3000/tasks/`, 
-    {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(name)
-    })
-    results.json()
-        .then((data) => {
-            listArray = data;
-            listArray.forEach((Task) => {
-                let li = document.createElement('li');
-                li.innerText = `ID: ${Task.id} Task: ${Task.TaskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - Priority: ${Task.Priority}`
-                list?.appendChild(li);
-            });
+    try {
+        const results = await fetch(`http://localhost:3000/tasks/`, 
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(name)
         })
-        .catch((error) => {
-            console.log(error);
+        const listArray = await results.json();
+        listArray.forEach((Task) => {
+            let li = document.createElement('li');
+            li.innerText = `ID: ${Task.id} Task: ${Task.taskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - priority: ${Task.priority}`
+            list?.appendChild(li);
         });
-
+        
+    } catch (error) {
+        console.log(error);
+    }
 }
