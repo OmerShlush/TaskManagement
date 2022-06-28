@@ -4,6 +4,7 @@ import { indexTask, updateTaskIndex, deleteTaskIndex } from '../elasticsearch/es
 import { 
     createTask, 
     getTasks, 
+    getTasksByName,
     deleteTask, 
     updateTaskStatus, 
     getFilteredTasks, 
@@ -40,6 +41,12 @@ router.put('/updatePriority', async (req: Request, res: Response) => {
     return res.send(updatedTask);
 });
 
+router.post('/', async (req: Request, res: Response) => {
+    const { name } = req.body;
+    const tasks = await getTasksByName(name);
+    return res.json(tasks);
+});
+
 router.get('/', async (req: Request, res: Response) => {
     const tasks = await getTasks();
     return res.json(tasks);
@@ -47,7 +54,8 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.get('/filtered', async (req: Request, res: Response) => {
     const filteredTasks = await getFilteredTasks();
-    res.json(filteredTasks);
+    return res.json(filteredTasks);
 });
+
 
 export { router };

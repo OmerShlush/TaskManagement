@@ -150,3 +150,30 @@ function createUser (name: string) {
     console.error('Error:', error);
     }); 
 }
+
+function loadUserTasks(name: string) {
+    console.log(JSON.stringify(name))
+    let listArray: [Task];
+    const list = document.getElementById('filteredTaskList');
+    fetch(`http://localhost:3000/tasks/`, 
+    {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(name)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        listArray = data;
+        listArray.forEach((Task) => {
+            let li = document.createElement('li');
+            li.innerText = `ID: ${Task.id} Task: ${Task.TaskName} - Progress: ${Task.isDone ? 'DONE' : 'In Work'} - Priority: ${Task.Priority}`
+            list?.appendChild(li);
+        });
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}

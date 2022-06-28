@@ -42,6 +42,20 @@ const getTasks = async () => {
     return tasks;
 }
 
+const getTasksByName = async (name: string) => {
+    const user = await appDataSource.getRepository(User).findOneBy({
+        name: name
+    });
+    const userId = user.id;
+    const tasks = await appDataSource.getRepository(Task).find({
+        where: {
+            user: {id: userId}
+        }
+    })
+    return tasks;
+
+}
+
 const getFilteredTasks = async () => {
     const tasks = await appDataSource.getRepository(Task).find({
         where: {
@@ -54,4 +68,4 @@ const getFilteredTasks = async () => {
     return tasks;
   }
   
-export { createTask, getTasks, updateTaskStatus, deleteTask, getFilteredTasks, updateTaskPriority }
+export { createTask, getTasks, getTasksByName, updateTaskStatus, deleteTask, getFilteredTasks, updateTaskPriority }

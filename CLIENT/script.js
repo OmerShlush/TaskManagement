@@ -117,3 +117,27 @@ function createUser(name) {
         console.error('Error:', error);
     });
 }
+function loadUserTasks(name) {
+    console.log(JSON.stringify(name));
+    var listArray;
+    var list = document.getElementById('filteredTaskList');
+    fetch("http://localhost:3000/tasks/", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(name)
+    })
+        .then(function (response) { return response.json(); })
+        .then(function (data) {
+        console.log('Success:', data);
+        listArray = data;
+        listArray.forEach(function (Task) {
+            var li = document.createElement('li');
+            li.innerText = "ID: ".concat(Task.id, " Task: ").concat(Task.TaskName, " - Progress: ").concat(Task.isDone ? 'DONE' : 'In Work', " - Priority: ").concat(Task.Priority);
+            list === null || list === void 0 ? void 0 : list.appendChild(li);
+        });
+    })["catch"](function (error) {
+        console.error('Error:', error);
+    });
+}
