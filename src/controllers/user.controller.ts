@@ -1,6 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import UserManager from '../database/user.db-queries';
+import UserManager from '../database/UserManager';
 
 const router = express.Router();
 

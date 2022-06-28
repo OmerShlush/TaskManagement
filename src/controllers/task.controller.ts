@@ -2,7 +2,7 @@ import express from 'express';
 import { Request, Response } from 'express';
 import { indexTask, updateTaskIndex, deleteTaskIndex } from '../elasticsearch/es-queries';
 import { Log } from '../elasticsearch/logstash/server.logstash';
-import TaskManager from '../database/task.db-queries';
+import TaskManager from '../database/TaskManager';
 
 const router = express.Router();
 
