@@ -1,6 +1,7 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import { indexTask, updateTaskIndex, deleteTaskIndex } from '../elasticsearch/es-queries';
+import { Log } from '../elasticsearch/logstash/server.logstash';
 import { 
     createTask, 
     getTasks, 
@@ -18,6 +19,7 @@ router.post('/create', async (req: Request, res: Response) => {
     const name = req.body.name;
     const createdTask = await createTask(taskName, name);
     await indexTask(createdTask.id, createdTask.user.id, createdTask.Priority);
+    Log(createdTask);
     return res.send(createdTask);
 });
 
@@ -31,6 +33,7 @@ router.delete('/delete', async (req: Request, res: Response) => {
 router.put('/updateStatus', async (req: Request, res: Response) => {
     const id = req.body.TaskId;
     const updatedTask = await updateTaskStatus(id);
+    Log(updatedTask);
     return res.send(updatedTask);
 });
 
@@ -38,6 +41,7 @@ router.put('/updatePriority', async (req: Request, res: Response) => {
     const { TaskId, Priority } = req.body;
     const updatedTask = await updateTaskPriority(TaskId, Priority);
     await updateTaskIndex(TaskId, Priority);
+    Log({id: TaskId, Priority: Priority})
     return res.send(updatedTask);
 });
 
